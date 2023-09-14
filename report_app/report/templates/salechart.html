@@ -1,0 +1,50 @@
+<!-- report/templates/sales_invoice_chart.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Invoice Chart</title>
+</head>
+<body>
+    <h1>Sales Invoice Chart</h1>
+
+    
+    <div class="chart-container">
+        <canvas id="sales-invoice-chart"></canvas>
+    </div>
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+     
+        var ctx = document.getElementById('sales-invoice-chart').getContext('2d');
+        var chartData = {
+            labels: {{ data_for_chart.labels|safe }},
+            datasets: [{
+                label: 'Sales Invoice Amount',
+                data: {{ data_for_chart.values|safe }},
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+        var chartOptions = {
+            responsive: true,
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: chartOptions
+        });
+    </script>
+</body>
+</html>
