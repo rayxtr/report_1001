@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sale Data</title>
+</head>
+<body>
+    <h1>List is here...</h1>
+    <ul>
+        {% for item in data.data %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+  <br>
+  <a href = "{% url 'landing_page'  %}">Back to Main page</a>
+
+    
+</body>
+</html>

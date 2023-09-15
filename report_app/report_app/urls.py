@@ -7,5 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
      path('', views.landing_page, name='landing-page'),
     
-     path('report/templates/sales_invoice_chart.html', views.sales_invoice_report, name='sales-invoice'),
+     path('sales-invoice/', views.sales_invoice_report, name='sales-invoice'),
+     path('api_data/', views.api_data,name = 'api_data'),
+      path('landing_page/', views.landing_page,name = 'landing_page'),
 ]

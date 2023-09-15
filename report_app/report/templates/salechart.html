@@ -11,23 +11,29 @@
 
     
     <div class="chart-container">
-        <canvas id="sales-invoice-chart"></canvas>
+        <canvas id="sales-invoice-chart" width="400" height="300"></canvas>
     </div>
 
   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <script>
-     
+        console.log("Chart.js initialization code is running.");
+
+        document.addEventListener('DOMContentLoaded', function() {
         var ctx = document.getElementById('sales-invoice-chart').getContext('2d');
+       // console.log("Data from Django view:", {{ data_for_chart.label|safe|default:"[]" }});
+//console.log("Data from Django view:", {{ data_for_chart.values|safe|default:"[]" }});
         var chartData = {
-            labels: {{ data_for_chart.labels|safe }},
+            labels: {{ data_for_chart.label|safe|default:"[]"  }},
             datasets: [{
                 label: 'Sales Invoice Amount',
-                data: {{ data_for_chart.values|safe }},
+                data: {{ data_for_chart.values|safe|default:"[]"  }},
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
+
+            
         };
         var chartOptions = {
             responsive: true,
@@ -40,11 +46,14 @@
                 }
             }
         };
+
+        console.log(chartData);
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: chartData,
             options: chartOptions
         });
+    });
     </script>
 </body>
 </html>
