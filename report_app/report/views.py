@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-
+import json
 
 import requests
 
@@ -48,7 +48,7 @@ def sales_invoice_report(request):
 
       
         for invoice_data in invoice_data_list.get('data'):
-          #  print(invoice_data)
+           # print(invoice_data)
             name = invoice_data.get('name', None)
 
             if name:
@@ -69,9 +69,10 @@ def sales_invoice_report(request):
                         data_for_chart['label'].append(posting_date)
                         data_for_chart['values'].append(grand_total)
                        # print(data_for_chart)
+                       
                 except requests.exceptions.RequestException as e:
                     return JsonResponse({'error': str(e)})
     except requests.exceptions.RequestException as e:
         return JsonResponse({'error': str(e)})
 
-    return render(request, 'salechart.html', {'data': data_for_chart})
+    return render(request, 'salechart.html', {'data': json.dumps(data_for_chart)})

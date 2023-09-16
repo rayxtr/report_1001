@@ -10,50 +10,53 @@
     <h1>Sales Invoice Chart</h1>
 
     
-    <div class="chart-container">
-        <canvas id="sales-invoice-chart" width="400" height="300"></canvas>
+    <div class="chart-container" style="max-width: 800px;max-height:700px; margin: 0 auto;">
+        <canvas id="sales-invoice-chart" ></canvas>
     </div>
 
   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <script>
         console.log("Chart.js initialization code is running.");
-
+        var chartData = JSON.parse('{{ data|escapejs|safe }}');
+        console.log("Data from Django view:", chartData);
+    
         document.addEventListener('DOMContentLoaded', function() {
-        var ctx = document.getElementById('sales-invoice-chart').getContext('2d');
-       // console.log("Data from Django view:", {{ data_for_chart.label|safe|default:"[]" }});
-//console.log("Data from Django view:", {{ data_for_chart.values|safe|default:"[]" }});
-        var chartData = {
-            labels: {{ data_for_chart.label|safe|default:"[]"  }},
-            datasets: [{
-                label: 'Sales Invoice Amount',
-                data: {{ data_for_chart.values|safe|default:"[]"  }},
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-
-            
-        };
-        var chartOptions = {
-            responsive: true,
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
+            var ctx = document.getElementById('sales-invoice-chart').getContext('2d');
+    
+            // Check the values of chartData.label and chartData.values
+            console.log("Labels:", chartData.label);
+            console.log("Values:", chartData.values);
+    
+            var cha = {
+                labels: chartData.label,  // Labels for the x-axis
+                datasets: [{
+                    label: 'Sales Invoice Amount',
+                    data: chartData.values,  // Values for the y-axis
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            };
+    
+            var chartOptions = {
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
                 }
-            }
-        };
-
-        console.log(chartData);
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: chartData,
-            options: chartOptions
+            };
+    
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: cha,
+                options: chartOptions
+            });
         });
-    });
     </script>
 </body>
 </html>
